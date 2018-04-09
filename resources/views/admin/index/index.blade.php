@@ -123,13 +123,13 @@
                         </a>
                     </li >
                     <li>
-                        <a _href="{{url('admin/role')}}">
+                        <a _href="{{url('admin/power')}}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限分类</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="admin-rule.html">
+                        <a _href="{{url('admin/power')}}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限管理</cite>
                         </a>

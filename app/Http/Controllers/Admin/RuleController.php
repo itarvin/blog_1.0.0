@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class AdminController extends BaseController
+class RuleController extends BaseController
 {
     //
 	public function index()
 	{
-		$data = User::orderBy('id','desc')->paginate(10);
-		return view('admin/admin/index',compact('data'));
+		return view('admin/power/index');
 	}
 	//
 	public function store()
@@ -22,7 +21,7 @@ class AdminController extends BaseController
 	//
 	public function create()
 	{
-		return view('admin/admin/add');
+		return view('admin/power/add');
 	}
 	//
 	public function show()

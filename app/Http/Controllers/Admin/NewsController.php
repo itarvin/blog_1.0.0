@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class AdminController extends BaseController
+class NewsController extends BaseController
 {
     //
 	public function index()

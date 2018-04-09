@@ -68,35 +68,35 @@
                 <tbody>
                     <tr>
                         <th width="30%">服务器计算机名</th>
-                        <td><span id="lbServerName">http://127.0.0.1/</span></td>
+                        <td><span id="lbServerName"></span></td>
                     </tr>
                     <tr>
                         <td>服务器IP地址</td>
-                        <td>192.168.1.1</td>
+                        <td>{{$_SERVER['SERVER_ADDR']}}</td>
                     </tr>
                     <tr>
                         <td>服务器域名</td>
-                        <td>x.xuebingsi.com</td>
+                        <td>{{$_SERVER['HTTP_HOST']}}</td>
                     </tr>
                     <tr>
                         <td>服务器端口 </td>
-                        <td>80</td>
+                        <td>{{$_SERVER['SERVER_PORT']}}</td>
                     </tr>
                     <tr>
                         <td>服务器IIS版本 </td>
-                        <td>Microsoft-IIS/6.0</td>
+                        <td>{{$_SERVER['SERVER_SOFTWARE']}}</td>
                     </tr>
                     <tr>
                         <td>本文件所在文件夹 </td>
-                        <td>D:\WebSite\HanXiPuTai.com\XinYiCMS.Web\</td>
+                        <td>{{$_SERVER['PATH']}}</td>
                     </tr>
                     <tr>
                         <td>服务器操作系统 </td>
-                        <td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
+                        <td>{{PHP_OS}}</td>
                     </tr>
                     <tr>
                         <td>系统所在文件夹 </td>
-                        <td>C:\WINDOWS\system32</td>
+                        <td>{{$_SERVER['PATH']}}</td>
                     </tr>
                     <tr>
                         <td>服务器脚本超时时间 </td>
