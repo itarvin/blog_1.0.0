@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Model\User;
+use App\Http\Model\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,8 +11,8 @@ class CategoryController extends BaseController
     //
 	public function index()
 	{
-		$data = User::orderBy('id','desc')->paginate(10);
-		return view('admin/category/index',compact('data'));
+		$categorys = (new Category)->tree();
+        return view('admin.category.index')->with('data',$categorys);
 	}
 	//
 	public function store()

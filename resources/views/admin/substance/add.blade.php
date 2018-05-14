@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="x-body">
-    <form class="layui-form" enctype="multipart/form-data">
+    <form class="layui-form">
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>登录名
@@ -9,12 +9,8 @@
             <div class="layui-input-inline">
                 <input type="text" id="username" name="username" required="" lay-verify="required" autocomplete="off" class="layui-input">
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
-            <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男" checked="">
-                <input type="radio" name="sex" value="女" title="女">
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>将会成为您唯一的登入名
             </div>
         </div>
         <div class="layui-form-item">
@@ -24,6 +20,9 @@
             <div class="layui-input-inline">
                 <input type="text" id="phone" name="phone" required="" lay-verify="phone" autocomplete="off" class="layui-input">
             </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>将会成为您唯一的登入名
+            </div>
         </div>
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
@@ -32,19 +31,16 @@
             <div class="layui-input-inline">
                 <input type="text" id="L_email" name="email" required="" lay-verify="email" autocomplete="off" class="layui-input">
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="x-red">*</span>头像</label>
-            <div class="layui-upload-inline" >
-                <input type="file" name="logo" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>简介
-            </label>
+            <label class="layui-form-label"><span class="x-red">*</span>角色</label>
             <div class="layui-input-block">
-              <textarea placeholder="请输入内容" class="layui-textarea" name="think"></textarea>
+                <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
+                <input type="checkbox" name="like1[read]" lay-skin="primary" title="编辑人员">
+                <input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员" checked="">
             </div>
         </div>
         <div class="layui-form-item">
@@ -52,7 +48,7 @@
                 <span class="x-red">*</span>密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" id="L_pass" name="password" required="" lay-verify="pass" autocomplete="off" class="layui-input">
+                <input type="password" id="L_pass" name="pass" required="" lay-verify="pass" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 6到16个字符
@@ -76,30 +72,10 @@
     </form>
 </div>
 <script>
-function extra_data(input,data){
-	var item=[];
-	$.each(data,function(k,v){
-		item.push('<input type="hidden" name="'+k+'" value="'+v+'">');
-	})
-	$(input).after(item.join(''));
-}
-
-layui.use(['form','layer','upload'], function(){
+layui.use(['form','layer'], function(){
     $ = layui.jquery;
     var form = layui.form
-    ,layer = layui.layer
-    ,upload = layui.upload;
-    //拖拽上传
-    // upload.render({
-    //     elem: '#test10'
-    //     ,url: '{{url("admin/upload")}}'
-    //     ,data: {
-    //         '_token' : "{{csrf_token()}}"
-    //     }
-    //     ,done: function(res){
-    //         console.log(res)
-    //     }
-    // });
+    ,layer = layui.layer;
 
     //自定义验证规则
     form.verify({

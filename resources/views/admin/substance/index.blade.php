@@ -6,18 +6,17 @@
         <a href="">演示</a>
         <a><cite>导航元素</cite></a>
     </span>
-    <!-- <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i>
-    </a> -->
+    </a>
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" action="{{url('admin/user/index')}}" method="post">
-            <input class="layui-input" placeholder="开始日" value="{{ old('start') }}" name="start" id="start">
-            {{csrf_field()}}
-            <input class="layui-input" placeholder="截止日" value="{{ old('end') }}" name="end" id="end">
-            <input type="text" name="username" value="{{ old('username') }}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-
+        <form class="layui-form layui-col-md12 x-so" action="{{url('admin/user/search')}}" method="post">
+            <input class="layui-input" placeholder="开始日" name="start" id="start">
+            <input type="hidden" name="start" value="{{ csrf_token() }}">
+            <input class="layui-input" placeholder="截止日" name="end" id="end">
+            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
@@ -31,11 +30,11 @@
             <tr>
                 <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div></th>
                 <th>ID</th>
-                <th>登录名</th>
-                <th>手机</th>
-                <th>邮箱</th>
-                <th>角色</th>
-                <th>加入时间</th>
+                <th>标题</th>
+                <th>作者</th>
+                <th>点击数</th>
+                <th>缩略图</th>
+                <th>编辑时间</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
@@ -45,12 +44,17 @@
             <tr>
                 <td><div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div></td>
                 <td>{{$v['id']}}</td>
+                <td>{{$v['title']}}</td>
                 <td>{{$v['username']}}</td>
-                <td>{{$v['phone']}}</td>
-                <td>{{$v['email']}}</td>
-                <td>超级管理员</td>
+                <td>{{$v['hits']}}</td>
+                <td><img src="{{$v['mid_picture']}}"></td>
                 <td>{{$v['createtime']}}</td>
-                <td class="td-status"><span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+                <td class="td-status">
+                    @if ($v['status'] == 1)
+                        <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span></td>
+                    @elseif ($v['status'] == 0)
+                        <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+                    @endif
                 <td class="td-manage">
                     <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                         <i class="layui-icon">&#xe601;</i>

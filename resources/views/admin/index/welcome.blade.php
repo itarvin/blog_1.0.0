@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 @section('content')
         <div class="x-body">
-            <blockquote class="layui-elem-quote">欢迎使用x-admin 后台模版！v2.0官方交流群： 519492808</blockquote>
+            <blockquote class="layui-elem-quote">itarvin博客后台</blockquote>
             <fieldset class="layui-elem-field">
               <legend>信息统计</legend>
               <div class="layui-field-box">
-                <table class="layui-table" lay-even>
+                <!-- <table class="layui-table" lay-even>
                     <thead>
                         <tr>
                             <th>统计</th>
@@ -58,7 +58,7 @@
                             <td>0</td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
                 <table class="layui-table">
                 <thead>
                     <tr>
@@ -68,11 +68,11 @@
                 <tbody>
                     <tr>
                         <th width="30%">服务器计算机名</th>
-                        <td><span id="lbServerName"></span></td>
+                        <td><span id="lbServerName">{{PHP_OS}}</span></td>
                     </tr>
                     <tr>
                         <td>服务器IP地址</td>
-                        <td>{{$_SERVER['SERVER_ADDR']}}</td>
+                        <td>{{$_SERVER['SERVER_NAME'].' [ '.gethostbyname($_SERVER['SERVER_NAME']).' ]'}}</td>
                     </tr>
                     <tr>
                         <td>服务器域名</td>
@@ -83,7 +83,7 @@
                         <td>{{$_SERVER['SERVER_PORT']}}</td>
                     </tr>
                     <tr>
-                        <td>服务器IIS版本 </td>
+                        <td>服务器版本 </td>
                         <td>{{$_SERVER['SERVER_SOFTWARE']}}</td>
                     </tr>
                     <tr>
@@ -91,78 +91,68 @@
                         <td>{{$_SERVER['PATH']}}</td>
                     </tr>
                     <tr>
-                        <td>服务器操作系统 </td>
-                        <td>{{PHP_OS}}</td>
-                    </tr>
-                    <tr>
                         <td>系统所在文件夹 </td>
                         <td>{{$_SERVER['PATH']}}</td>
                     </tr>
                     <tr>
-                        <td>服务器脚本超时时间 </td>
-                        <td>30000秒</td>
+                        <td>PHP版本</td>
+                        <td>{{PHP_VERSION}}</td>
                     </tr>
                     <tr>
                         <td>服务器的语言种类 </td>
-                        <td>Chinese (People's Republic of China)</td>
+                        <td>{{$_SERVER['HTTP_ACCEPT_LANGUAGE']}}</td>
                     </tr>
                     <tr>
                         <td>.NET Framework 版本 </td>
-                        <td>2.050727.3655</td>
+                        <td>{{zend_version()}}</td>
                     </tr>
                     <tr>
                         <td>服务器当前时间 </td>
-                        <td>2017-01-01 12:06:23</td>
+                        <td>{{date("Y年n月j日 H:i:s",time())}}</td>
                     </tr>
                     <tr>
-                        <td>服务器IE版本 </td>
-                        <td>6.0000</td>
+                        <td>最大执行时间</td>
+                        <td>{{get_cfg_var("max_execution_time")."秒 "}}</td>
                     </tr>
                     <tr>
-                        <td>服务器上次启动到现在已运行 </td>
-                        <td>7210分钟</td>
+                        <td>系统版本号</td>
+                        <td>{{php_uname('r')}}</td>
                     </tr>
                     <tr>
-                        <td>逻辑驱动器 </td>
-                        <td>C:\D:\</td>
+                        <td>浏览器信息</td>
+                        <td>{{$_SERVER['HTTP_USER_AGENT']}}</td>
                     </tr>
                     <tr>
-                        <td>CPU 总数 </td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>CPU 类型 </td>
-                        <td>x86 Family 6 Model 42 Stepping 1, GenuineIntel</td>
-                    </tr>
-                    <tr>
-                        <td>虚拟内存 </td>
-                        <td>52480M</td>
+                        <td>通信协议</td>
+                        <td>{{$_SERVER['SERVER_PROTOCOL']}}</td>
                     </tr>
                     <tr>
                         <td>当前程序占用内存 </td>
-                        <td>3.29M</td>
+                        <td>{{get_cfg_var ("memory_limit") ? get_cfg_var("memory_limit"):"无"}}</td>
                     </tr>
                     <tr>
-                        <td>Asp.net所占内存 </td>
-                        <td>51.46M</td>
+                        <td>剩余空间</td>
+                        <td>{{round((disk_free_space(".")/(1024*1024)),2).'M'}}</td>
                     </tr>
                     <tr>
-                        <td>当前Session数量 </td>
-                        <td>8</td>
+                        <td>最大上传限制</td>
+                        <td>{{get_cfg_var ("upload_max_filesize")?get_cfg_var ("upload_max_filesize") : "不允许上传附件"}}</td>
                     </tr>
                     <tr>
                         <td>当前SessionID </td>
-                        <td>gznhpwmp34004345jz2q3l45</td>
+                        <td>{{session_id()}}</td>
+                    </tr>
+                    <tr>
+                        <td>用户的IP地址</td>
+                        <td>{{$_SERVER['REMOTE_ADDR']}}</td>
                     </tr>
                     <tr>
                         <td>当前系统用户名 </td>
-                        <td>NETWORK SERVICE</td>
+                        <td>{{Get_Current_User()}}</td>
                     </tr>
                 </tbody>
             </table>
               </div>
             </fieldset>
-            <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本后台系统由X前端框架提供前端技术支持。</blockquote>
-
         </div>
 @endsection

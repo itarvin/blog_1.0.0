@@ -16,41 +16,44 @@
 </head>
 <body class="login-bg">
     <div class="login">
-        <div class="message">x-admin2.0-管理登录</div>
+        <div class="message">管理登录</div>
         <div id="darkbannerwrap"></div>
         <form method="post" class="layui-form" >
-			<input name="users" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+			<input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
-            <input name="pwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
 			<input name="verify" lay-verify="required" placeholder="验证码"  type="text" class="layui-input" style='width:150px; float:left;'>
 			<img src="{{url('admin/code')}}" alt="captcha" onclick="refreshVerify()" id="verify_img" style='float:right;'>
             <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
+			{{csrf_field()}}
         </form>
     </div>
     <script>
-        $(function  () {
-            layui.use('form', function(){
-              var form = layui.form;
-              // layer.msg('玩命卖萌中', function(){
-              //   //关闭后的操作
-              //   });
-              //监听提交
-              form.on('submit(login)', function(data){
-                // alert(888)
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
+	$(function  () {
+		layui.use('form', function(){
+			var form = layui.form;
+			//监听提交
+			form.on('submit(login)', function(data){
+				//发异步，把数据提交给php
+	            $.post("{{url('admin/login')}}",data.field,function(res){
+	    			if(res.code == 200){
+	                    layer.msg(res.msg, {time: 2000});
+						window.location.href="{{url('admin/index')}}"; 
+	                }else{
+	    				layer.msg(res.msg, {time: 2000});
+	    			}
+	            },'json');
                 return false;
-              });
-            });
-        })
-		function refreshVerify(){
-			var ts = Date.parse(new Date())/100;
-			$('#verify_img').attr("src", "{{url('admin/code')}}?id="+ts);
-		}
+			});
+		});
+	})
+	function refreshVerify(){
+		var ts = Date.parse(new Date())/100;
+		$('#verify_img').attr("src", "{{url('admin/code')}}?id="+ts);
+	}
     </script>
 </body>
 </html>

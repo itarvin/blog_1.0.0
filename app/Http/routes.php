@@ -12,7 +12,7 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'Home\IndexController@index');
+    Route::get('/', 'Admin\IndexController@index');
     Route::any('admin/login', 'Admin\LoginController@login');
     Route::get('admin/code', 'Admin\LoginController@code');
 });
@@ -20,9 +20,12 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => ['web'],'prefix'=>'admin','namespace'=>'Admin'], function () {
     Route::get('index', 'IndexController@index');
     Route::get('welcome', 'IndexController@welcome');
+    Route::post('user/index', 'AdminController@index');
     Route::resource('user','AdminController');
     Route::resource('role','RoleController');
     Route::resource('power','PowerController');
     Route::resource('rule','RuleController');
     Route::resource('category','CategoryController');
+    Route::resource('substance','SubstanceController');
+    Route::any('upload', 'BaseController@upload');
 });
