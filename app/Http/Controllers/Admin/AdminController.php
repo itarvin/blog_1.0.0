@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Input;
 
 class AdminController extends BaseController
 {
-    //
+	/**
+     * 应用场景：列表主页 and 搜索
+     * @return array
+     */
 	public function index(Request $request)
 	{
 		$data = User::orderBy('id','asc')->paginate(10);
@@ -38,37 +41,51 @@ class AdminController extends BaseController
 		return view('admin/admin/index',compact('data'));
 	}
 
-	//
-	public function store()
+	/**
+     * 应用场景：执行添加
+     * @return array
+     */
+	public function store(Request $request)
 	{
-
+		$input = Input::except('_token');
+		$input['logo'] = $this->upload($request);
+		$result = (new User)->store($input);
+		if($result){
+			return back()->with('errors', $result['msg']);
+		}
 	}
+
+
 	//
 	public function create()
 	{
 		return view('admin/admin/add');
 	}
+
 	//
 	public function show()
 	{
 
 	}
-	//
-	public function update()
-	{
 
+	//
+	public function update($uid)
+	{
+		$input = Input::except('_token');
+		// $request = new Request;
+		// $input['logo'] = $this->upload($request);
+		dd($input);
 	}
-	//
-	public function edit()
-	{
 
+	//
+	public function edit($uid)
+	{
+		$data = User::find($uid);
+        return view('admin.admin.edit',compact('data'));
 	}
 	//
 	public function destroy()
 	{
 
 	}
-
-
-
 }

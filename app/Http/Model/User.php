@@ -2,6 +2,7 @@
 namespace App\Http\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 require_once 'resources/org/code/Code.class.php';
 class User extends Model
 {
@@ -9,6 +10,47 @@ class User extends Model
     protected $table='admin';
     protected $primaryKey = 'id';
     public $timestamps = false;
+    protected $fillable = ['username', 'password','sex','phone','email','logo','think','createtime','lasttime','ip'];
+
+    //表单验证规则
+    public $rules = [
+        'username' => 'required',
+        'password' => 'required',
+        'phone' => 'required',
+        'email' => 'required',
+    ];
+
+
+    //自定义消息显示
+    protected $messages = [
+        'username.required' => '用户名不能为空',
+        'password.required' => '密码不能为空',
+        'phone.required'    => '电话不能为空',
+        'email.required'    => '邮箱不能为空',
+    ];
+
+
+    public function store($data)
+    {
+        $validator = Validator::make($data, $this->rules, $this->messages);
+        $data['password'] = md5(md5($data['password']));
+        $data['createtime'] = date('Y-m-d H:i:s',time());
+        // dd($data);
+        if ($validator->passes()) {
+
+            //do something
+            if($this->create($data)){
+
+                return ['code' => '200','msg'=>'添加成功'];
+            }else {
+
+                return ['code' => '400','msg'=>'添加失败'];
+            }
+        }else {
+
+            return ['code' => '400','msg'=> $validator];
+        }
+    }
 
     public function login($data)
     {
@@ -38,6 +80,9 @@ class User extends Model
             if($user->username != $data['username'] || $user->password !=  md5(md5($data['password']))){
                 return ['code' => '400','msg'=>'用户名或密码错误！'];
             }
+            // 更新登录信息
+            $lastInfo = ['lasttime' => date('Y-m-d H:i:s',time()), 'ip' => Request::getClientIp()]
+            $this->update($lastInfo);
             session(['uid' => $user->id, 'uname' => $user->username]);
 
             return ['code' => '200','msg'=>'认证成功！'];

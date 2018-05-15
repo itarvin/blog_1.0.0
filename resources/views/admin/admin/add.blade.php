@@ -1,7 +1,18 @@
 @extends('layouts.admin')
 @section('content')
 <div class="x-body">
-    <form class="layui-form" enctype="multipart/form-data">
+    <form class="layui-form" enctype="multipart/form-data" action="{{url('admin/user')}}" method="post">
+        @if(count($errors)>0)
+            <div class="layui-form-item">
+                @if(is_object($errors))
+                    @foreach($errors->all() as $error)
+                        <span class="x-red">{{$error}}</span>
+                    @endforeach
+                @else
+                    <span class="x-red">{{$errors}}</span>
+                @endif
+            </div>
+        @endif
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>登录名
@@ -10,6 +21,7 @@
                 <input type="text" id="username" name="username" required="" lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
+        {{csrf_field()}}
         <div class="layui-form-item">
             <label class="layui-form-label">单选框</label>
             <div class="layui-input-block">
@@ -63,7 +75,7 @@
                 <span class="x-red">*</span>确认密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" id="L_repass" name="repass" required="" lay-verify="repass" autocomplete="off" class="layui-input">
+                <input type="password" id="L_repass" required="" lay-verify="repass" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -89,17 +101,6 @@ layui.use(['form','layer','upload'], function(){
     var form = layui.form
     ,layer = layui.layer
     ,upload = layui.upload;
-    //拖拽上传
-    // upload.render({
-    //     elem: '#test10'
-    //     ,url: '{{url("admin/upload")}}'
-    //     ,data: {
-    //         '_token' : "{{csrf_token()}}"
-    //     }
-    //     ,done: function(res){
-    //         console.log(res)
-    //     }
-    // });
 
     //自定义验证规则
     form.verify({
@@ -115,18 +116,6 @@ layui.use(['form','layer','upload'], function(){
             }
         }
     });
-
-    //监听提交
-    form.on('submit(add)', function(data){
-        console.log(data);
-        //发异步，把数据提交给php
-        layer.alert("增加成功", {icon: 6},function () {
-            // 获得frame索引
-            var index = parent.layer.getFrameIndex(window.name);
-            //关闭当前frame
-            parent.layer.close(index);
-        });
-        return false;
     });
 });
 </script>

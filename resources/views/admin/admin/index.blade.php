@@ -34,7 +34,7 @@
                 <th>登录名</th>
                 <th>手机</th>
                 <th>邮箱</th>
-                <th>角色</th>
+                <th>头像</th>
                 <th>加入时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -48,14 +48,14 @@
                 <td>{{$v['username']}}</td>
                 <td>{{$v['phone']}}</td>
                 <td>{{$v['email']}}</td>
-                <td>超级管理员</td>
+                <td><img src="{{$v['logo']}}"></td>
                 <td>{{$v['createtime']}}</td>
                 <td class="td-status"><span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                 <td class="td-manage">
                     <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                         <i class="layui-icon">&#xe601;</i>
                     </a>
-                    <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
+                    <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$v->id.'/edit')}}')" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
                     <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
