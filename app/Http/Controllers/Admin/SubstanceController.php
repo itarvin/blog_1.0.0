@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Model\Substance;
 use Illuminate\Http\Request;
-
-// use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 class SubstanceController extends BaseController
 {
@@ -23,10 +22,11 @@ class SubstanceController extends BaseController
      * 应用场景：添加执行
      * @return json
      */
-	public function store()
-	{
-
-	}
+	 public function store(Request $request)
+ 	{
+ 		$input = Input::except('_token','picture');
+ 		return (new Substance)->store($input);
+ 	}
 
 	/**
      * 应用场景：添加页
@@ -46,18 +46,31 @@ class SubstanceController extends BaseController
 	//
 	public function update()
 	{
-
+		$input = Input::except('_token','_method','picture');
+		return (new Substance)->store($input);
 	}
 
 	//
-	public function edit()
+	public function edit($aid)
 	{
-
+		$data = Substance::find($aid);
+		return view('admin/substance/edit',compact('data'));
 	}
 
 	//
-	public function destroy()
+	public function destroy($aid)
 	{
-
+		if(Substance::where('id', $aid)->delete()){
+			$result = [
+				'code' => returnCode("SUCCESS"),
+				'msg'  => '请求成功！',
+			];
+		}else {
+			$result = [
+				'code' => returnCode("ERROR"),
+				'msg'  => '请求失败了！',
+			];
+		}
+		return $result;
 	}
 }

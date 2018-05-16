@@ -1,136 +1,142 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.admin')
+@section('content')
+<div class="x-body">
+    <form class="layui-form">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="{{asset('/public/admin/css/font.css')}}">
-    <link rel="stylesheet" href="{{asset('/public/admin/css/xadmin.css')}}">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{asset('/public/admin/lib/layui/layui.js')}}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{asset('/public/admin/js/xadmin.js')}}"></script>
-  </head>
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label">
+                <span class="x-red">*</span>标题
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" value="{{$data->title}}" required="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        {{csrf_field()}}
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>短标题
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="short_title" required=""  autocomplete="off" class="layui-input" value="{{$data->short_title}}">
+            </div>
+        </div>
 
-  <body>
+        <input type="hidden" name="pictures" id="mpicture" value="{{$data->pictures}}">
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>图片
+            </label>
+            <div class="layui-upload-drag" id="test10">
+                <img width="100px" height="100px" id="loadimg" style="display:none;">
+                <i class="layui-icon" id="icon"></i>
+                <p id="notic">点击上传，或将文件拖拽到此处</p>
+            </div>
+        </div>
 
-    <div class="x-body">
-        <form class="layui-form">
-          <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
-                  <span class="x-red">*</span>登录名
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="username" name="username" required="" lay-verify="required"
-                  autocomplete="off" value="admin" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>将会成为您唯一的登入名
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="phone" class="layui-form-label">
-                  <span class="x-red">*</span>手机
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" value="18925139194" id="phone" name="phone" required="" lay-verify="phone"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>将会成为您唯一的登入名
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_email" class="layui-form-label">
-                  <span class="x-red">*</span>邮箱
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" value="113664000@qq.com" id="L_email" name="email" required="" lay-verify="email"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label"><span class="x-red">*</span>角色</label>
-              <div class="layui-input-block">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
-                <input type="checkbox" name="like1[read]" lay-skin="primary" title="编辑人员">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员" >
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>密码
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  6到16个字符
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>确认密码
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
-              </button>
-          </div>
-      </form>
-    </div>
-    <script>
-        layui.use(['form','layer'], function(){
-            $ = layui.jquery;
-          var form = layui.form
-          ,layer = layui.layer;
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>排序
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="sort" autocomplete="off" class="layui-input" value="{{$data->title}}">
+            </div>
+        </div>
 
-          //自定义验证规则
-          form.verify({
-            nikename: function(value){
-              if(value.length < 5){
-                return '昵称至少得5个字符啊';
-              }
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>关键字
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_email" name="keyword" required="" autocomplete="off" class="layui-input" value="{{$data->title}}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>简介
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea">{{$data->abstract}}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>内容
+            </label>
+            <div class="layui-input-inline">
+                <script id="editor" name="content" type="text/plain" style="width:860px;height:300px;">{!!$data->content!!}</script>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button  class="layui-btn" lay-filter="add" lay-submit="">
+                更新
+            </button>
+        </div>
+
+    </form>
+</div>
+<script>
+layui.use(['form','layer','upload'], function(){
+    $ = layui.jquery;
+    var form = layui.form
+    ,layer = layui.layer
+    ,upload = layui.upload;
+
+    //拖拽上传
+    upload.render({
+        elem: '#test10'
+        ,url: '{{url("admin/upload")}}'
+        ,data: {'timestamp' : '<?php echo time();?>',
+                '_token'    : "{{csrf_token()}}",
+                'name'      : "article"
             }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
-                    return '两次密码不一致';
-                }
+        ,field: "picture"
+        ,done: function(res){
+            //如果上传失败
+            if(res.code !=  200){
+                return layer.msg(res.msg);
+            }else {
+                //上传成功
+                $('#mpicture').val(res.msg);
+                $('#icon').hide();
+                $('#notic').hide();
+                $('#loadimg').show();
+                $('#loadimg').attr('src',res.msg);
+
             }
-          });
+        }
+    });
 
-          //监听提交
-          form.on('submit(add)', function(data){
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
-            return false;
-          });
+    //监听提交
+    form.on('submit(add)', function(data){
+        //发异步，把数据提交给php
+        $.post("{{url('admin/substance')}}",data.field,function(res){
 
+    		if(res.code == 200){
+                layer.alert(res.msg, {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                });
+            }else{
+    			layer.msg(res.msg, {time: 2000});
+    		}
+        },'json');
 
-        });
-    </script>
-
-  </body>
-
-</html>
+        return false;
+    });
+});
+</script>
+<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
+<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
+<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh-cn.js')}}"></script>
+<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+</script>
+@endsection

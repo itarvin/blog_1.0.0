@@ -47,7 +47,7 @@ class AdminController extends BaseController
      */
 	public function store(Request $request)
 	{
-		$input = Input::except('_token');
+		$input = Input::except('_token','picture');
 		return (new User)->store($input);
 	}
 
@@ -95,16 +95,66 @@ class AdminController extends BaseController
 	public function destroy($uid)
 	{
 		if(User::where('id', $uid)->delete()){
-			$result = [
+			return [
 				'code' => returnCode("SUCCESS"),
 				'msg'  => '请求成功！',
 			];
 		}else {
-			$result = [
+			return [
 				'code' => returnCode("ERROR"),
 				'msg'  => '请求失败了！',
 			];
 		}
-		return $result;
+	}
+
+
+	/**
+     * 应用场景：批量删除
+     * @return json
+     */
+	public function delall()
+	{
+		$input = Input::except('_token');
+		$success = [];
+		$authority = [];
+		foreach ($input['data'] as $key => $user) {
+
+			if(checkManage($user)){
+
+				$authority[] = $user;
+			}else {
+
+				if(User::where('id', $user)->delete()){
+
+					$success[] = $user;
+				}else {
+
+					$authority[] = $user;
+				}
+			}
+		}
+		return  ['code' => returnCode("SUCCESS"), 'msg' => "执行成功".count($success).'条!失败'.count($authority)."条！"];
+	}
+
+
+	public function changeStatus()
+	{
+		$input = Input::except('_token')['data'];
+
+		$value = $input['status'] == 1 ? '0' : '1';
+
+		if(User::where('id',$input['uid'])->update(['user_status' => $value])){
+
+			return [
+				'code' => returnCode("SUCCESS"),
+				'msg'  => '请求成功！',
+			];
+		}else {
+
+			return [
+				'code' => returnCode("ERROR"),
+				'msg'  => '请求失败了！',
+			];
+		}
 	}
 }

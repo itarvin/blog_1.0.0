@@ -43,18 +43,31 @@
         <tbody>
             @foreach($data as $k => $v)
             <tr>
-                <td><div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div></td>
+                <td><div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v['id']}}'><i class="layui-icon">&#xe605;</i></div></td>
                 <td>{{$v['id']}}</td>
                 <td>{{$v['username']}}</td>
                 <td>{{$v['phone']}}</td>
                 <td>{{$v['email']}}</td>
                 <td><img src="{{$v['logo']}}"></td>
                 <td>{{$v['createtime']}}</td>
-                <td class="td-status"><span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+                <td class="td-status">
+                    @if($v['user_status'] == 1)
+                    <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+                    @else
+                    <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span>
+                    @endif
+                </td>
                 <td class="td-manage">
-                    <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+                    @if($v['user_status'] == 1)
+                    <a onclick="member_stop(this,'{{$v['id']}}')" href="javascript:;"  title="停用">
                         <i class="layui-icon">&#xe601;</i>
                     </a>
+                    @else
+                    <a onclick="member_stop(this,'{{$v['id']}}')" href="javascript:;"  title="启用">
+                        <i class="layui-icon">&#xe62f;</i>
+                    </a>
+                    @endif
+
                     <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$v->id.'/edit')}}')" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
@@ -87,27 +100,43 @@ layui.use('laydate', function(){
 });
 
 /*用户-停用*/
-// function member_stop(obj,id){
-//     layer.confirm('确认要停用吗？',function(index){
-//
-//         if($(obj).attr('title')=='启用'){
-//
-//             //发异步把用户状态进行更改
-//             $(obj).attr('title','停用')
-//             $(obj).find('i').html('&#xe62f;');
-//
-//             $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-//             layer.msg('已停用!',{icon: 5,time:1000});
-//
-//         }else{
-//             $(obj).attr('title','启用')
-//             $(obj).find('i').html('&#xe601;');
-//
-//             $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-//             layer.msg('已启用!',{icon: 5,time:1000});
-//         }
-//     });
-// }
+function member_stop(obj,id){
+    layer.confirm('确认要停用吗？',function(index){
+
+        if($(obj).attr('title')=='启用'){
+            var info = sendRequest('1',id);
+            console.log(info);
+            if(sendRequest('1',id)){
+                //发异步把用户状态进行更改
+                $(obj).attr('title','停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!',{icon: 5,time:1000});
+            }
+        }else{
+            var info = sendRequest('1',id);
+            console.log(info);
+            if(sendRequest('1',id)){
+                $(obj).attr('title','启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!',{icon: 5,time:1000});
+            }
+        }
+    });
+}
+
+function sendRequest(status,id) {
+    $.post("{{url('admin/user/changeStatus')}}",{'_token':"{{csrf_token()}}",'data':{'status':status,'uid':id}},function(res){
+        if(res.code == 200){
+            return true;
+        }else{
+            return false;
+        }
+    },'json');
+}
 
 /*用户-删除*/
 function member_del(obj,id){
@@ -125,15 +154,22 @@ function member_del(obj,id){
   });
 }
 
-// function delAll (argument) {
-//
-//     var data = tableCheck.getData();
-//
-//     layer.confirm('确认要删除吗？'+data,function(index){
-//     //捉到所有被选中的，发异步进行删除
-//         layer.msg('删除成功', {icon: 1});
-//         $(".layui-form-checked").not('.header').parents('tr').remove();
-//     });
-// }
+function delAll (argument) {
+
+    var data = tableCheck.getData();
+
+    layer.confirm('确认要删除吗？'+data,function(index){
+    //捉到所有被选中的，发异步进行删除
+        $.post("{{url('admin/user/delall')}}",{'_token':"{{csrf_token()}}",'data':data},function(res){
+            if(res.code == 200){
+                layer.msg(res.msg, {icon: 1});
+                $(".layui-form-checked").not('.header').parents('tr').remove();
+            }else{
+                layer.msg(res.msg, {time: 2000});
+            }
+        },'json');
+    return false;
+    });
+}
 </script>
 @endsection

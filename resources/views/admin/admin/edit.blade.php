@@ -17,8 +17,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">单选框</label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男" lay-filter="sex" checked="">
-                <input type="radio" name="sex" value="女" lay-filter="sex" title="女">
+                <input type="radio" name="sex" value="男" title="男" lay-filter="sex" @if($data->sex == 男) checked="" @endif >>
+                <input type="radio" name="sex" value="女" lay-filter="sex" title="女"  @if($data->sex == 女) checked="" @endif >>
             </div>
         </div>
         <div class="layui-form-item">

@@ -22,6 +22,8 @@ Route::group(['middleware' => ['web'],'prefix'=>'admin','namespace'=>'Admin'], f
     Route::get('welcome', 'IndexController@welcome');
     Route::post('user/index', 'AdminController@index');
     Route::resource('user','AdminController');
+    Route::post('user/delall','AdminController@delall');
+    Route::post('user/changeStatus','AdminController@changeStatus');
     Route::resource('role','RoleController');
     Route::resource('power','PowerController');
     Route::resource('rule','RuleController');
