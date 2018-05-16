@@ -21,7 +21,10 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "App/Tools/function.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
@@ -45,6 +48,9 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "github-oauth": {
+            "github.com": "59cec724f25d101a3a9346324fb03668d5aa3e7c"
+        }
     }
 }

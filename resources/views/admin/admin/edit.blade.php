@@ -1,33 +1,24 @@
 @extends('layouts.admin')
 @section('content')
 <div class="x-body">
-    <form class="layui-form" enctype="multipart/form-data" action="{{url('admin/user/'.$data->id)}}" method="post">
-        @if(count($errors)>0)
-            <div class="layui-form-item">
-                @if(is_object($errors))
-                    @foreach($errors->all() as $error)
-                        <span class="x-red">{{$error}}</span>
-                    @endforeach
-                @else
-                    <span class="x-red">{{$errors}}</span>
-                @endif
-            </div>
-        @endif
+
+    <form class="layui-form">
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>登录名
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="username" value="{{$data->username}}" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" id="username" name="username" required="" lay-verify="required" autocomplete="off" value="{{$data->username}}" class="layui-input">
             </div>
         </div>
-        <input type="hidden" name="_method" value="put">
         {{csrf_field()}}
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="id" value="{{$data->id}}">
         <div class="layui-form-item">
             <label class="layui-form-label">单选框</label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男" checked="">
-                <input type="radio" name="sex" value="女" title="女">
+                <input type="radio" name="sex" value="男" title="男" lay-filter="sex" checked="">
+                <input type="radio" name="sex" value="女" lay-filter="sex" title="女">
             </div>
         </div>
         <div class="layui-form-item">
@@ -35,7 +26,7 @@
                 <span class="x-red">*</span>手机
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="phone" name="phone" required="" lay-verify="phone" value="{{$data->phone}}" autocomplete="off" class="layui-input">
+                <input type="text" id="phone" name="phone" value="{{$data->phone}}"  required="" lay-verify="phone" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -43,13 +34,20 @@
                 <span class="x-red">*</span>邮箱
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required="" lay-verify="email" autocomplete="off" value="{{$data->email}}" class="layui-input">
+                <input type="text"  name="email" value="{{$data->email}}"  required="" lay-verify="email" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="x-red">*</span>头像</label>
-            <div class="layui-upload-inline" >
-                <input type="file" name="logo" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">
+            <div class="layui-upload-block" >
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" width="50px" height="50px" src="{{$data->logo}}">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+                <input name="logo" type="hidden" id="logo" value="{{$data->logo}}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -65,18 +63,10 @@
                 <span class="x-red">*</span>密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" id="L_pass" name="password" lay-verify="pass" autocomplete="off" class="layui-input">
+                <input type="password" name="password" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 6到16个字符
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
-                <span class="x-red">*</span>确认密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_repass" lay-verify="repass" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -89,34 +79,67 @@
     </form>
 </div>
 <script>
-function extra_data(input,data){
-	var item=[];
-	$.each(data,function(k,v){
-		item.push('<input type="hidden" name="'+k+'" value="'+v+'">');
-	})
-	$(input).after(item.join(''));
-}
-
 layui.use(['form','layer','upload'], function(){
     $ = layui.jquery;
     var form = layui.form
     ,layer = layui.layer
     ,upload = layui.upload;
 
-    //自定义验证规则
-    form.verify({
-        nikename: function(value){
-            if(value.length < 5){
-                return '昵称至少得5个字符啊';
+    //普通图片上传
+    var uploadInst = upload.render({
+        elem: '#test1'
+        ,url: '{{url("admin/upload")}}'
+        ,field:"picture"
+        ,data: {'timestamp' : '<?php echo time();?>',
+                '_token'    : "{{csrf_token()}}",
+                'name'      : "admin"
+            }
+        ,before: function(obj){
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#demo1').attr('src', result); //图片链接（base64）
+            });
+
+            if($('#logo').val() != ''){
+                return false;
             }
         }
-        ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-        ,repass: function(value){
-            if($('#L_pass').val()!=$('#L_repass').val()){
-                return '两次密码不一致';
+        ,done: function(res){
+            //如果上传失败
+            if(res.code !=  200){
+                return layer.msg(res.msg);
+            }else {
+                //上传成功
+                $('#logo').val(res.msg);
             }
+        }
+        ,error: function(){
+            //演示失败状态，并实现重传
+            var demoText = $('#demoText');
+            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+            demoText.find('.demo-reload').on('click', function(){
+                uploadInst.upload();
+            });
         }
     });
+
+    // 提交数据
+    form.on('submit(add)', function(data){
+        //发异步，把数据提交给php
+        $.post("{{url('admin/user/'.$data->id)}}",data.field,function(res){
+
+    		if(res.code == 200){
+                layer.alert(res.msg, {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                });
+            }else{
+    			layer.msg(res.msg, {time: 2000});
+    		}
+        },'json');
+        return false;
     });
 });
 </script>
