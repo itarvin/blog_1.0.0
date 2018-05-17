@@ -23,6 +23,8 @@ Route::group(['middleware' => ['web','admin.login'],'prefix'=>'admin','namespace
     Route::get('welcome', 'IndexController@welcome');
     Route::post('user/index', 'AdminController@index');
     Route::resource('user','AdminController');
+    Route::resource('config','ConfigController');
+    Route::post('config/updateContent','ConfigController@updateContent');
     Route::post('user/delall','AdminController@delall');
     Route::any('log','LogController@index');
     Route::any('project','ProjectController@index');

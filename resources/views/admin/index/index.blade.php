@@ -95,6 +95,12 @@
                             <cite>日志列表</cite>
                         </a>
                     </li >
+                    <li>
+                        <a _href="{{url('admin/config')}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>配置列表</cite>
+                        </a>
+                    </li >
                 </ul>
             </li>
             <li>
