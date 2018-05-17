@@ -14,19 +14,22 @@
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'Admin\IndexController@index');
     Route::any('admin/login', 'Admin\LoginController@login');
+    Route::any('admin/logout', 'Admin\LoginController@logout');
     Route::get('admin/code', 'Admin\LoginController@code');
 });
 
-Route::group(['middleware' => ['web'],'prefix'=>'admin','namespace'=>'Admin'], function () {
+Route::group(['middleware' => ['web','admin.login'],'prefix'=>'admin','namespace'=>'Admin'], function () {
     Route::get('index', 'IndexController@index');
     Route::get('welcome', 'IndexController@welcome');
     Route::post('user/index', 'AdminController@index');
     Route::resource('user','AdminController');
     Route::post('user/delall','AdminController@delall');
+    Route::any('log','LogController@index');
+    Route::any('project','ProjectController@index');
     Route::post('user/changeStatus','AdminController@changeStatus');
     Route::resource('role','RoleController');
-    Route::resource('power','PowerController');
     Route::resource('rule','RuleController');
+    Route::resource('news','NewsController');
     Route::resource('category','CategoryController');
     Route::resource('substance','SubstanceController');
     Route::any('upload', 'BaseController@upload');

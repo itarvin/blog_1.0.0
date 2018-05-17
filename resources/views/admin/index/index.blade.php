@@ -21,7 +21,7 @@
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
               <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
               <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-              <dd><a href="./login.html">退出</a></dd>
+              <dd><a href="{{url('admin/logout')}}">退出</a></dd>
             </dl>
           </li>
           <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -36,60 +36,6 @@
         <ul id="nav">
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe6b8;</i>
-                    <cite>会员管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="member-list.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员列表</cite>
-
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="member-del.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员删除</cite>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="xxx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表</cite>
-
-                                </a>
-                            </li >
-                            <li>
-                                <a _href="xx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite>
-
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="xx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>等级管理</cite>
-
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
                     <cite>资讯管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
@@ -99,6 +45,12 @@
                         <a _href="{{url('admin/substance')}}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>博文列表</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{{url('admin/news')}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>相册列表</cite>
                         </a>
                     </li >
                 </ul>
@@ -123,13 +75,7 @@
                         </a>
                     </li >
                     <li>
-                        <a _href="{{url('admin/power')}}">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限分类</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="{{url('admin/power')}}">
+                        <a _href="{{url('admin/rule')}}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限管理</cite>
                         </a>
@@ -144,53 +90,26 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="echarts1.html">
+                        <a _href="{{url('admin/log')}}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>拆线图</cite>
+                            <cite>日志列表</cite>
                         </a>
                     </li >
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6f1;</i>
+                    <cite>爬虫项目</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
                     <li>
-                        <a _href="echarts2.html">
+                        <a _href="{{url('admin/project')}}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>柱状图</cite>
+                            <cite>腾讯招聘</cite>
                         </a>
-                    </li>
-                    <li>
-                        <a _href="echarts3.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>地图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="echarts4.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>饼图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="echarts5.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>雷达图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="echarts6.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>k线图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="echarts7.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>热力图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="echarts8.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>仪表图</cite>
-                        </a>
-                    </li>
+                    </li >
                 </ul>
             </li>
         </ul>

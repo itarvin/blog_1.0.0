@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <input type="hidden" name="pictures" id="mpicture">
+        <input type="hidden" name="picture" id="mpicture">
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>图片
@@ -94,7 +94,7 @@ layui.use(['form','layer','upload'], function(){
                 '_token'    : "{{csrf_token()}}",
                 'name'      : "article"
             }
-        ,field: "picture"
+        ,field: "upfile"
         ,done: function(res){
             //如果上传失败
             if(res.code !=  200){

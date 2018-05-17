@@ -13,7 +13,7 @@
         </div>
         {{csrf_field()}}
         <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
+            <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
                 <input type="radio" name="sex" value="男" title="男" lay-filter="sex" checked="">
                 <input type="radio" name="sex" value="女" lay-filter="sex" title="女">
@@ -110,7 +110,7 @@ layui.use(['form','layer','upload'], function(){
     var uploadInst = upload.render({
         elem: '#test1'
         ,url: '{{url("admin/upload")}}'
-        ,field:"picture"
+        ,field:"upfile"
         ,data: {'timestamp' : '<?php echo time();?>',
                 '_token'    : "{{csrf_token()}}",
                 'name'      : "admin"
@@ -120,7 +120,7 @@ layui.use(['form','layer','upload'], function(){
             obj.preview(function(index, file, result){
                 $('#demo1').attr('src', result); //图片链接（base64）
             });
-            
+
             if($('#logo').val() != ''){
                 return false;
             }

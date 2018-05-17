@@ -40,8 +40,9 @@
 				//发异步，把数据提交给php
 	            $.post("{{url('admin/login')}}",data.field,function(res){
 	    			if(res.code == 200){
-	                    layer.msg(res.msg, {time: 2000});
-						window.location.href="{{url('admin/index')}}"; 
+	                    layer.msg(res.msg, {time: 1000});
+						location.href="{{url('admin/index')}}";
+						// window.open("{{url('admin/index')}}","_blank");
 	                }else{
 	    				layer.msg(res.msg, {time: 2000});
 	    			}
@@ -54,6 +55,9 @@
 		var ts = Date.parse(new Date())/100;
 		$('#verify_img').attr("src", "{{url('admin/code')}}?id="+ts);
 	}
+	// 解决完全退出页面
+	if (window != top)
+		top.location.href = location.href;
     </script>
 </body>
 </html>

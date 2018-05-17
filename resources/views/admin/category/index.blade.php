@@ -104,8 +104,6 @@
           });
       }
 
-
-
       function delAll (argument) {
           var data = tableCheck.getData();
           layer.confirm('确认要删除吗？'+data,function(index){

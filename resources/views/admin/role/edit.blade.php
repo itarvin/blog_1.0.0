@@ -9,16 +9,18 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="rolename" name="rolename" required="" lay-verify="required"
-                        autocomplete="off" class="layui-input">
+                        autocomplete="off" class="layui-input" value="{{$data->rolename}}">
                     </div>
                 </div>
                 {{csrf_field()}}
+                <input type="hidden" name="_method" value="put">
+                <input type="hidden" name="id" value="{{$data->id}}">
                 <div class="layui-form-item layui-form-text">
                     <label for="remark" class="layui-form-label">
                         描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" id="remark" name="remark" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入内容" id="remark" name="remark" class="layui-textarea">{{$data->rolename}}</textarea>
                     </div>
                 </div>
 
@@ -30,7 +32,7 @@
                         <td>
                             @foreach($priData as $k => $vo)
         						{{str_repeat('-', 16*$vo['level'])}}
-        						<input level_id="{{$vo['level']}}" type="checkbox" id="che_{{$vo['id']}}" name="pri_id[{{$vo['id']}}]" value="{{$vo['id']}}" lay-filter="encrypt"/>
+        						<input level_id="{{$vo['level']}}" type="checkbox" id="che_{{$vo['id']}}" name="pri_id[{{$vo['id']}}]" value="{{$vo['id']}}" lay-filter="encrypt" @if( in_array($vo['id'],$rpData)) checked @endif/>
         						<label for="che_{$vo.id}">{{$vo['pri_name']}}</label><br />
         					@endforeach
                         </td>
@@ -38,7 +40,7 @@
                 </div>
 
                 <div class="layui-form-item">
-                <button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
+                <button class="layui-btn" lay-submit="" lay-filter="add">更新</button>
               </div>
             </form>
     </div>
@@ -50,7 +52,7 @@
 
         //监听提交
         form.on('submit(add)', function(data){
-            $.post("{{url('admin/role')}}",data.field,function(res){
+            $.post("{{url('admin/role/'.$data->id)}}",data.field,function(res){
                if(res.status == 1){
                    layer.alert(res.msg, {icon: 6},function () {
                        // 获得frame索引

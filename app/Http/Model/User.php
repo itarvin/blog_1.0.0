@@ -3,6 +3,7 @@ namespace App\Http\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Model\User;
 require_once 'resources/org/code/Code.class.php';
 class User extends Model
 {
@@ -40,7 +41,7 @@ class User extends Model
 
             unset($data['password']);
         }else {
-            
+
             $data['password'] = $password;
         }
         if(isset($data['id']) && empty($data['password'])){
@@ -76,6 +77,11 @@ class User extends Model
         }
     }
 
+
+    /**
+     * 应用场景：登录验证
+     * @return json
+     */
     public function login($data)
     {
         $rules = [
@@ -110,13 +116,19 @@ class User extends Model
                 return ['code' => returnCode("ERROR"), 'msg'=>'用户名或密码错误！'];
             }
             // 更新登录信息
-            $lastInfo = ['lasttime' => date('Y-m-d H:i:s',time()), 'ip' => (new Request)->getClientIp()];
+            // $lastInfo = ['lasttime' => date('Y-m-d H:i:s',time()), 'ip' => (new Request)->getClientIp()];
+            $lastInfo = ['lasttime' => date('Y-m-d H:i:s',time()), 'ip' => '127.0.0.1'];
 
             $this->where('id', $user->id)->update($lastInfo);
 
-            session(['uid' => $user->id, 'uname' => $user->username]);
+            session(['uid' => $user->id]);
+
+            session(['uname' => $user->username]);
+            // 日志写入
+            (new Log)->takeNotes();
 
             return ['code' => returnCode("SUCCESS"), 'msg'=>'认证成功！'];
+
         }else {
             return ['code' => returnCode("ERROR"), 'msg'=> $validator];
         }

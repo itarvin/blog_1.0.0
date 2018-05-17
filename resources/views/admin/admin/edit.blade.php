@@ -17,8 +17,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">单选框</label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男" lay-filter="sex" @if($data->sex == 男) checked="" @endif >>
-                <input type="radio" name="sex" value="女" lay-filter="sex" title="女"  @if($data->sex == 女) checked="" @endif >>
+                <input type="radio" name="sex" value="男" title="男" lay-filter="sex" @if($data->sex == '男') checked="" @endif >
+                <input type="radio" name="sex" value="女" lay-filter="sex" title="女"  @if($data->sex == '女') checked="" @endif >
             </div>
         </div>
         <div class="layui-form-item">
@@ -73,7 +73,7 @@
             <label for="L_repass" class="layui-form-label">
             </label>
             <button  class="layui-btn" lay-filter="add" lay-submit="">
-                增加
+                更新
             </button>
         </div>
     </form>
@@ -89,7 +89,7 @@ layui.use(['form','layer','upload'], function(){
     var uploadInst = upload.render({
         elem: '#test1'
         ,url: '{{url("admin/upload")}}'
-        ,field:"picture"
+        ,field:"upfile"
         ,data: {'timestamp' : '<?php echo time();?>',
                 '_token'    : "{{csrf_token()}}",
                 'name'      : "admin"

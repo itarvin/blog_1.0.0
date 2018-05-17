@@ -47,7 +47,7 @@ class AdminController extends BaseController
      */
 	public function store(Request $request)
 	{
-		$input = Input::except('_token','picture');
+		$input = Input::except('_token','upfile');
 		return (new User)->store($input);
 	}
 
@@ -73,7 +73,7 @@ class AdminController extends BaseController
      */
 	public function update($uid)
 	{
-		$input = Input::except('_token','_method','picture');
+		$input = Input::except('_token','_method','upfile');
 		return (new User)->store($input);
 	}
 
@@ -136,7 +136,10 @@ class AdminController extends BaseController
 		return  ['code' => returnCode("SUCCESS"), 'msg' => "执行成功".count($success).'条!失败'.count($authority)."条！"];
 	}
 
-
+	/**
+     * 应用场景：修改状态
+     * @return json
+     */
 	public function changeStatus()
 	{
 		$input = Input::except('_token')['data'];

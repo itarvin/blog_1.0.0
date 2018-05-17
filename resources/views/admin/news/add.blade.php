@@ -8,20 +8,12 @@
                 <span class="x-red">*</span>标题
             </label>
             <div class="layui-input-inline">
-                <input type="text" name="title" value="{{$data->title}}" required="" autocomplete="off" class="layui-input">
+                <input type="text" name="title" required="" autocomplete="off" class="layui-input">
             </div>
         </div>
         {{csrf_field()}}
-        <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>短标题
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="short_title" required=""  autocomplete="off" class="layui-input" value="{{$data->short_title}}">
-            </div>
-        </div>
 
-        <input type="hidden" name="picture" id="mpicture" value="{{$data->pictures}}">
+        <input type="hidden" name="pictures" id="mpicture">
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>图片
@@ -34,29 +26,11 @@
         </div>
 
         <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>排序
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="sort" autocomplete="off" class="layui-input" value="{{$data->title}}">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>关键字
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_email" name="keyword" required="" autocomplete="off" class="layui-input" value="{{$data->title}}">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
             <label for="L_pass" class="layui-form-label">
                 <span class="x-red">*</span>简介
             </label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea">{{$data->abstract}}</textarea>
+                <textarea placeholder="请输入内容" class="layui-textarea" name="depict"></textarea>
             </div>
         </div>
 
@@ -65,7 +39,7 @@
                 <span class="x-red">*</span>内容
             </label>
             <div class="layui-input-inline">
-                <script id="editor" name="content" type="text/plain" style="width:860px;height:300px;">{!!$data->content!!}</script>
+                <script id="editor" name="content" type="text/plain" style="width:860px;height:300px;"></script>
             </div>
         </div>
 
@@ -73,7 +47,7 @@
             <label for="L_repass" class="layui-form-label">
             </label>
             <button  class="layui-btn" lay-filter="add" lay-submit="">
-                更新
+                增加
             </button>
         </div>
 
@@ -92,7 +66,7 @@ layui.use(['form','layer','upload'], function(){
         ,url: '{{url("admin/upload")}}'
         ,data: {'timestamp' : '<?php echo time();?>',
                 '_token'    : "{{csrf_token()}}",
-                'name'      : "article"
+                'name'      : "photos"
             }
         ,field: "upfile"
         ,done: function(res){
@@ -114,7 +88,7 @@ layui.use(['form','layer','upload'], function(){
     //监听提交
     form.on('submit(add)', function(data){
         //发异步，把数据提交给php
-        $.post("{{url('admin/substance')}}",data.field,function(res){
+        $.post("{{url('admin/news')}}",data.field,function(res){
 
     		if(res.code == 200){
                 layer.alert(res.msg, {icon: 6},function () {

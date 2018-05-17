@@ -24,7 +24,7 @@ class SubstanceController extends BaseController
      */
 	 public function store(Request $request)
  	{
- 		$input = Input::except('_token','picture');
+ 		$input = Input::except('_token','upfile');
  		return (new Substance)->store($input);
  	}
 
@@ -43,34 +43,32 @@ class SubstanceController extends BaseController
 
 	}
 
-	//
+	/**
+     * 应用场景：更新执行
+     * @return json
+     */
 	public function update()
 	{
-		$input = Input::except('_token','_method','picture');
+		$input = Input::except('_token','_method','upfile');
 		return (new Substance)->store($input);
 	}
 
-	//
+	/**
+     * 应用场景：更新页
+     * @return view
+     */
 	public function edit($aid)
 	{
 		$data = Substance::find($aid);
 		return view('admin/substance/edit',compact('data'));
 	}
 
-	//
+	/**
+     * 应用场景：删除执行
+     * @return json
+     */
 	public function destroy($aid)
 	{
-		if(Substance::where('id', $aid)->delete()){
-			$result = [
-				'code' => returnCode("SUCCESS"),
-				'msg'  => '请求成功！',
-			];
-		}else {
-			$result = [
-				'code' => returnCode("ERROR"),
-				'msg'  => '请求失败了！',
-			];
-		}
-		return $result;
+		return (new Substance)->checkDelete($aid);
 	}
 }

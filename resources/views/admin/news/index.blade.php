@@ -17,16 +17,19 @@
             </form>
         </div>
         <xblock>
-            <button class="layui-btn" onclick="x_admin_show('添加角色','{{url('admin/role/create')}}')"><i class="layui-icon"></i>添加</button>
-            <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>
+            <button class="layui-btn" onclick="x_admin_show('添加角色','{{url('admin/news/create')}}')"><i class="layui-icon"></i>添加</button>
+            <span class="x-right" style="line-height:40px">共有数据：{{$data->total()}} 条</span>
         </xblock>
         <table class="layui-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>角色名</th>
-                    <th>拥有权限规则</th>
-                    <th>描述</th>
+                    <th>标题</th>
+                    <th>图片</th>
+                    <th>点击数</th>
+                    <th>省份</th>
+                    <th>城市</th>
+                    <th>作者</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -34,14 +37,17 @@
                 @foreach($data as $k => $v)
                 <tr>
                     <td>{{$v->id}}</td>
-                    <td>{{$v->rolename}}</td>
-                    <td>{{$v->pri_name}}</td>
-                    <td>{{$v->remark}}</td>
+                    <td>{{$v->title}}</td>
+                    <td><img src="{{$v->pictures}}"width="50px" height="50px"></td>
+                    <td>{{$v->hits}}</td>
+                    <td>{{$v->region}}</td>
+                    <td>{{$v->city}}</td>
+                    <td>{{$v->author}}</td>
                     <td class="td-manage">
-                        <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/role/'.$v->id.'/edit')}}')" href="javascript:;">
+                        <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/news/'.$v->id.'/edit')}}')" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
-                        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>
                         </a>
                     </td>
@@ -49,6 +55,11 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="page">
+            <div>
+                {!! $data->links() !!}
+            </div>
+        </div>
     </div>
     <script>
     layui.use('laydate', function(){
@@ -68,8 +79,15 @@
     function member_del(obj,id){
         layer.confirm('确认要删除吗？',function(index){
             //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
+            $.post("{{url('admin/news/')}}/"+id,{'_method':'delete','_token':"{{csrf_token()}}"},function(res){
+                if(res.code == 200){
+                    $(obj).parents("tr").remove();
+                    layer.msg(res.msg,{icon:1,time:1000});
+                }else{
+                    layer.msg(res.msg, {time: 2000});
+                }
+            },'json');
+            return false;
         });
     }
     </script>

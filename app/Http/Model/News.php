@@ -3,30 +3,29 @@ namespace App\Http\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-class Substance extends Model
+use DB;
+class News extends Model
 {
-    //
-    protected $table='substance';
+
+    protected $table = 'photos';
     protected $primaryKey = 'id';
     public $timestamps = false;
-    protected $guarded=[];
+    protected $guarded = [];
 
-    protected $fillable = ['title', 'short_title','keywords','abstract','pictures','content','createtime','status','ip','country','region','city'];
+    protected $fillable = ['title', 'depict','content', 'createtime', 'author', 'ip', 'country', 'region', 'city', 'pictures'];
 
     //表单验证规则
     public $rules = [
-        // 'title' => 'required',
-        // 'short_title' => 'required',
-        // 'phone' => 'required',
-        // 'email' => 'required',
+        'title'    => 'required',
+        'depict'   => 'required',
+        'content'  => 'required',
     ];
 
     //自定义消息显示
     protected $messages = [
-        // 'title.required' => '用户名不能为空',
-        // 'short_title.required' => '密码不能为空',
-        // 'phone.required'    => '电话不能为空',
-        // 'email.required'    => '邮箱不能为空',
+        'title.required'      => '角色名称不能为空',
+        'depict.required'     => '备注不能为空',
+        'content.required'    => '内容不能为空',
     ];
 
     /**
@@ -46,16 +45,18 @@ class Substance extends Model
 
                     return ['code' => returnCode("SUCCESS"), 'msg'=>'更新成功！'];
                 }
+
             }else {
 
                 $data['createtime'] = date('Y-m-d H:i:s',time());
                 // 上线启用下面的一行
                 // $ipInfo = makeIpInfo((new Request)->getClientIp());
                 $ipInfo = makeIpInfo('223.74.180.50');
-                $data['ip'] = $ipInfo['ip'];
+                $data['ip']      = $ipInfo['ip'];
                 $data['country'] = $ipInfo['country'];
-                $data['region'] = $ipInfo['region'];
-                $data['city'] = $ipInfo['city'];
+                $data['region']  = $ipInfo['region'];
+                $data['city']    = $ipInfo['city'];
+                // $data['author']  = session('uname');
 
                 if($this->create($data)){
 

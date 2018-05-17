@@ -8,46 +8,21 @@
                 <span class="x-red">*</span>标题
             </label>
             <div class="layui-input-inline">
-                <input type="text" name="title" value="{{$data->title}}" required="" autocomplete="off" class="layui-input">
+                <input type="text" name="title" required="" value="{{$data->title}}" autocomplete="off" class="layui-input">
             </div>
         </div>
         {{csrf_field()}}
-        <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>短标题
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="short_title" required=""  autocomplete="off" class="layui-input" value="{{$data->short_title}}">
-            </div>
-        </div>
-
-        <input type="hidden" name="picture" id="mpicture" value="{{$data->pictures}}">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="id" value="{{$data->id}}">
+        <input type="hidden" name="pictures" id="mpicture" value="{{$data->pictures}}">
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>图片
             </label>
             <div class="layui-upload-drag" id="test10">
-                <img width="100px" height="100px" id="loadimg" style="display:none;">
+                <img width="100px" height="100px" id="loadimg" src="{{$data->pictures}}">
                 <i class="layui-icon" id="icon"></i>
                 <p id="notic">点击上传，或将文件拖拽到此处</p>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>排序
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="sort" autocomplete="off" class="layui-input" value="{{$data->title}}">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>关键字
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_email" name="keyword" required="" autocomplete="off" class="layui-input" value="{{$data->title}}">
             </div>
         </div>
 
@@ -56,7 +31,7 @@
                 <span class="x-red">*</span>简介
             </label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea">{{$data->abstract}}</textarea>
+                <textarea placeholder="请输入内容" class="layui-textarea" name="depict">{{$data->depict}}</textarea>
             </div>
         </div>
 
@@ -92,7 +67,7 @@ layui.use(['form','layer','upload'], function(){
         ,url: '{{url("admin/upload")}}'
         ,data: {'timestamp' : '<?php echo time();?>',
                 '_token'    : "{{csrf_token()}}",
-                'name'      : "article"
+                'name'      : "photos"
             }
         ,field: "upfile"
         ,done: function(res){
@@ -114,7 +89,7 @@ layui.use(['form','layer','upload'], function(){
     //监听提交
     form.on('submit(add)', function(data){
         //发异步，把数据提交给php
-        $.post("{{url('admin/substance')}}",data.field,function(res){
+        $.post("{{url('admin/news/'.$data->id)}}",data.field,function(res){
 
     		if(res.code == 200){
                 layer.alert(res.msg, {icon: 6},function () {
