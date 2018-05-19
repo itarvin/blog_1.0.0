@@ -108,12 +108,30 @@ class Role extends Model
      */
     public function search()
     {
-        $result['data'] = $this->join('role_pri', 'role.id', '=', 'role_pri.role_id')
-        ->join('privilege', 'privilege.id', '=', 'role_pri.pri_id')
-        ->select('role.*', 'privilege.pri_name')
-        ->groupBy('role.id')
-        ->get();
+        // 暂未找到有thinkphp 中那样使用GROUP_CONCAT() so 自定义处理拼装
+        // $result['data'] = $this->join('role_pri', 'role.id', '=', 'role_pri.role_id')
+        // ->join('privilege', 'privilege.id', '=', 'role_pri.pri_id')
+        // ->select('role.*', 'privilege.pri_name as pri_name')
+        // ->groupBy('role.id')
+        // ->get();
+
+        $result['data'] = $this->get();
+
+        $pri_names = [];
+
+        foreach ($result['data'] as $key => $value) {
+
+            $pri_names = DB::table('role_pri')->where('role_id', $value['id'])
+            ->join('privilege', 'privilege.id', '=', 'role_pri.pri_id')
+            ->select('privilege.pri_name')
+            ->get();
+
+            $priname = dyadicArrayString($pri_names);
+            $result['data'][$key]['pri_name'] = $priname;
+        }
+
         $result['count'] = $this->count();
+
         return $result;
     }
 }

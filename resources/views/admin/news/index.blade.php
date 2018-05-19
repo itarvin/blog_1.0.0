@@ -38,7 +38,7 @@
                 <tr>
                     <td>{{$v->id}}</td>
                     <td>{{$v->title}}</td>
-                    <td><img src="{{$v->pictures}}"width="50px" height="50px"></td>
+                    <td><img src="/public/uploads/{{$v->picture}}"width="50px" height="50px"></td>
                     <td>{{$v->hits}}</td>
                     <td>{{$v->region}}</td>
                     <td>{{$v->city}}</td>

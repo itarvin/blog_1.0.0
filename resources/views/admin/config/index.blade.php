@@ -10,12 +10,6 @@
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
-        <div class="layui-row">
-            <form class="layui-form layui-col-md12 x-so">
-                <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-                <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-            </form>
-        </div>
         <xblock>
             <button class="layui-btn" onclick="x_admin_show('添加角色','{{url('admin/config/create')}}')"><i class="layui-icon"></i>添加</button>
             <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>

@@ -3,6 +3,7 @@ namespace App\Http\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use DB;
 class Rule extends Model
 {
     //
@@ -155,4 +156,84 @@ class Rule extends Model
         // 返回一维数组
         return $ret;
     }
+
+
+    /**
+	 * 检查当前管理员是否有权限访问这个页面,
+     * @return int
+	 */
+	public function checkPri()
+	{
+		// 获取当前管理员正要访问的模型名称、控制器名称、方法名称
+		$adminId = session('uid');
+
+		// 如果是超级管理员直接返回 TRUE
+		if(checkManage($adminId))
+			return TRUE;
+        $request = getRequestInfo();
+
+        $has = DB::table('admin_role')
+        ->join('role_pri', 'role_pri.role_id', '=', 'admin_role.role_id')
+        ->join('privilege', 'privilege.id', '=', 'role_pri.pri_id')
+        ->where([
+            ['admin_role.admin_id', '=',$adminId],
+            ['admin_role.module_name', '=',$request['module']],
+            ['admin_role.controller_name', '=',$request['controller']],
+            ['admin_role.action_name', '=',$request['action']],
+        ])->count();
+
+		return ($has > 0);
+	}
+
+
+	/**
+	 * 获取当前管理员所拥有的前两级的权限
+	 * @return array
+	 */
+	public function getBtns()
+	{
+
+		$adminId = session('uid');
+
+		if(checkManage($adminId)){
+
+			$priData = $this->get();
+		}else{
+
+			// 取出当前管理员所在角色 所拥有的权限
+            $priData = DB::table('admin_role')->select('privilege.*')
+            ->join('role_pri', 'role_pri.role_id', '=', 'admin_role.role_id')
+            ->join('privilege', 'privilege.id', '=', 'role_pri.pri_id')
+            ->where('admin_role.admin_id', $adminId)
+            ->get();
+		}
+        $ar = [];
+        foreach ($priData as $key => $value) {
+            $ar['id']                = $value->id;
+            $ar['pri_name']          = $value->pri_name;
+            $ar['module_name']       = $value->module_name;
+            $ar['controller_name']   = $value->controller_name;
+            $ar['action_name']       = $value->action_name;
+            $ar['parent_id']         = $value->parent_id;
+            $pd[] = $ar;
+        }
+
+		$btns = [];
+
+		foreach ($pd as $k => $v){
+
+			if($v['parent_id'] == 0){
+
+				foreach ($pd as $k1 => $v1){
+
+					if($v1['parent_id'] == $v['id'] ){
+
+						$v['children'][] = $v1;
+					}
+				}
+				$btns[] = $v;
+			}
+		}
+		return $btns;
+	}
 }

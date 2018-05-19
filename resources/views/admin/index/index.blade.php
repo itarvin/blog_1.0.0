@@ -34,6 +34,25 @@
     <div class="left-nav">
       <div id="side-nav">
         <ul id="nav">
+            <!-- @foreach($btns as $k => $v)
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe697;</i>
+                    <cite>{{$v['pri_name']}}</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    @foreach($v['children'] as $k1 => $v1)
+                    <li>
+                        <a _href="{{url($v1['module_name'].'/'.$v1['controller_name'].'/'.$v1['action_name'])}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>{{$v1['pri_name']}}</cite>
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+            @endforeach -->
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
@@ -51,6 +70,12 @@
                         <a _href="{{url('admin/news')}}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>相册列表</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{{url('admin/music')}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>music列表</cite>
                         </a>
                     </li >
                 </ul>
@@ -121,7 +146,7 @@
         </ul>
       </div>
     </div>
-    <!-- <div class="x-slide_left"></div> -->
+    <div class="x-slide_left"></div>
     <!-- 左侧菜单结束 -->
     <!-- 右侧主体开始 -->
     <div class="page-content">

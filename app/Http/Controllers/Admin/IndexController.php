@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Model\Rule;
 class IndexController extends BaseController
 {
 	/**
@@ -11,7 +12,8 @@ class IndexController extends BaseController
      */
 	public function index()
 	{
-		return view('admin/index/index');
+		$btns = (new Rule)->getBtns();
+		return view('admin/index/index', compact('btns'));
 	}
 
 	/**
@@ -20,6 +22,7 @@ class IndexController extends BaseController
      */
 	public function welcome()
 	{
+		dd();
 		return view('admin/index/welcome');
 	}
 }

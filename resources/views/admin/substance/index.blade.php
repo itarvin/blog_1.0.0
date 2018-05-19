@@ -47,7 +47,7 @@
                 <td>{{$v['title']}}</td>
                 <td>{{$v['username']}}</td>
                 <td>{{$v['hits']}}</td>
-                <td><img src="{{$v['mid_picture']}}"></td>
+                <td><img src="/public/uploads/{{$v['mid_picture']}}"></td>
                 <td>{{$v['createtime']}}</td>
                 <td class="td-status">
                     @if ($v['status'] == 1)

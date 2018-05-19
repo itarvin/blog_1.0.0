@@ -53,7 +53,7 @@
         //监听提交
         form.on('submit(add)', function(data){
             $.post("{{url('admin/role/'.$data->id)}}",data.field,function(res){
-               if(res.code == 200){
+               if(res.status == 1){
                    layer.alert(res.msg, {icon: 6},function () {
                        // 获得frame索引
                        var index = parent.layer.getFrameIndex(window.name);

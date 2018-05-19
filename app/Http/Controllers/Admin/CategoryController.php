@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Model\Category;
+use App\Http\Model\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
@@ -14,6 +15,7 @@ class CategoryController extends BaseController
      */
 	public function index()
 	{
+		dd((new Rule)->getBtns());
 		$categorys = (new Category)->tree();
         return view('admin.category.index')->with('data',$categorys);
 	}
