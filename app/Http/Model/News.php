@@ -12,7 +12,7 @@ class News extends Model
     public $timestamps = false;
     protected $guarded = [];
 
-    protected $fillable = ['title', 'depict','content', 'createtime', 'author', 'ip', 'country', 'region', 'city', 'pictures'];
+    protected $fillable = ['title', 'depict','content', 'createtime', 'author', 'ip', 'country', 'region', 'city', 'picture'];
 
     //表单验证规则
     public $rules = [

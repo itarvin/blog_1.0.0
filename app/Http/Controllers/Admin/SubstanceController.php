@@ -50,6 +50,7 @@ class SubstanceController extends BaseController
 	public function update()
 	{
 		$input = Input::except('_token','_method','upfile');
+		// dd($input);
 		return (new Substance)->store($input);
 	}
 

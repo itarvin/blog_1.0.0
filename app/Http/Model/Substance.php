@@ -11,7 +11,7 @@ class Substance extends Model
     public $timestamps = false;
     protected $guarded=[];
 
-    protected $fillable = ['title', 'short_title','keywords','abstract','pictures','content','createtime','status','ip','country','region','city'];
+    protected $fillable = ['id','title', 'short_title','keywords','abstract','picture','content','createtime','status','ip','country','region','city'];
 
     //表单验证规则
     public $rules = [

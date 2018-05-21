@@ -22,7 +22,6 @@ class IndexController extends BaseController
      */
 	public function welcome()
 	{
-		dd();
 		return view('admin/index/welcome');
 	}
 }

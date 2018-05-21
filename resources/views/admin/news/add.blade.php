@@ -13,7 +13,7 @@
         </div>
         {{csrf_field()}}
 
-        <input type="hidden" name="pictures" id="mpicture">
+        <input type="hidden" name="picture" id="mpicture">
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>图片

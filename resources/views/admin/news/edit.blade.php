@@ -14,13 +14,13 @@
         {{csrf_field()}}
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="id" value="{{$data->id}}">
-        <input type="hidden" name="pictures" id="mpicture" value="{{$data->pictures}}">
+        <input type="hidden" name="picture" id="mpicture" value="{{$data->picture}}">
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
                 <span class="x-red">*</span>图片
             </label>
             <div class="layui-upload-drag" id="test10">
-                <img width="100px" height="100px" id="loadimg" src="{{$data->pictures}}">
+                <img width="100px" height="100px" id="loadimg" src="{{$data->picture}}">
                 <i class="layui-icon" id="icon"></i>
                 <p id="notic">点击上传，或将文件拖拽到此处</p>
             </div>

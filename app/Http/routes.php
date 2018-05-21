@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,20 +9,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'Api\ApiController@index');
     Route::get('api/blog', 'Api\ApiController@blog');
     Route::get('api/blogDetail/{aid}', 'Api\ApiController@blogDetail');
     Route::get('api/project', 'Api\ApiController@project');
     Route::get('api/music', 'Api\ApiController@music');
+    Route::get('api/user', 'Api\ApiController@user');
+    Route::get('api/news', 'Api\ApiController@news');
+    Route::get('api/newsDetail/{aid}', 'Api\ApiController@newsDetail');
     Route::any('admin/login', 'Admin\LoginController@login');
     Route::any('admin/logout', 'Admin\LoginController@logout');
     Route::get('admin/code', 'Admin\LoginController@code');
 });
-
-
-
 Route::group(['middleware' => ['web','admin.login'],'prefix'=>'admin','namespace'=>'Admin'], function () {
     Route::get('index', 'IndexController@index');
     Route::get('welcome', 'IndexController@welcome');
