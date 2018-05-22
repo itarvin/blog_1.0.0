@@ -1,5 +1,12 @@
 <?php
 
+// 密码薄
+function makeRandom()
+{
+	$array = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+	return $array;
+}
+
 function getRequestInfo()
 {
 	$actions = explode('\\', \Route::current()->getActionName());
@@ -15,7 +22,7 @@ function getRequestInfo()
 	$result['mudule'] = $modelName;
 	$result['controller'] = substr($controllerName,0,-10);
 	$result['action'] = $actionName;
-	
+
 	return $result;
 }
 /*

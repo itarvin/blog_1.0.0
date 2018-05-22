@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('api/music', 'Api\ApiController@music');
     Route::get('api/user', 'Api\ApiController@user');
     Route::get('api/news', 'Api\ApiController@news');
+    Route::post('api/login', 'Api\ApiController@login');
     Route::get('api/newsDetail/{aid}', 'Api\ApiController@newsDetail');
     Route::any('admin/login', 'Admin\LoginController@login');
     Route::any('admin/logout', 'Admin\LoginController@logout');
