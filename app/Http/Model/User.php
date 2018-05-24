@@ -160,11 +160,11 @@ class User extends Model
                 }
 
                 // 加密账户密码
-                $salt = md5($user->users.$user->password);
+                $salt = md5($user->username.$user->password);
                 // 对数据二次加密
                 $token = $this->encryption($user->id, $browser, $salt);
 
-                return ['code' => returnCode("SUCCESS"), 'msg'=>'认证成功！','identity' => $token];
+                return ['code' => returnCode("SUCCESS"), 'msg'=>'认证成功！','identity' => $token ,'uid' => $user->id];
             }else {
                 return ['code' => returnCode("ERROR"), 'msg'=>'用户名或密码错误！'];
             }

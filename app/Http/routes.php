@@ -18,6 +18,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('api/user', 'Api\ApiController@user');
     Route::get('api/news', 'Api\ApiController@news');
     Route::post('api/login', 'Api\ApiController@login');
+    Route::post('api/user/getmyuser', 'Api\UserController@getmyuser');
+    Route::post('api/user/interflow', 'Api\UserController@interflow');
+    Route::post('api/user/pullmsg', 'Api\UserController@pullMsg');
     Route::get('api/newsDetail/{aid}', 'Api\ApiController@newsDetail');
     Route::any('admin/login', 'Admin\LoginController@login');
     Route::any('admin/logout', 'Admin\LoginController@logout');

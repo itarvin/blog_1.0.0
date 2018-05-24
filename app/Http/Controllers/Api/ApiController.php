@@ -9,7 +9,7 @@ use App\Http\Model\News;
 use App\Http\Model\Music;
 use App\Http\Model\User;
 use Illuminate\Support\Facades\Input;
-class ApiController extends Controller
+class ApiController extends BaseController
 {
 	/**
      * 应用场景：后台导航
@@ -37,6 +37,10 @@ class ApiController extends Controller
 		return $data;
 	}
 
+	/**
+     * 应用场景：博文详情
+     * @return json
+     */
 	public function blogDetail($aid)
 	{
 		$data = (new Substance)->where('id', $aid)->get();
@@ -48,7 +52,10 @@ class ApiController extends Controller
 		return $data;
 	}
 
-
+	/**
+     * 应用场景：获取爬虫项目
+     * @return json
+     */
 	public function project(Request $request)
 	{
 		$skip = $request->get("skip") ? $request->get("skip") : 0;
@@ -63,7 +70,10 @@ class ApiController extends Controller
 		return $data;
 	}
 
-
+	/**
+     * 应用场景：获取音乐列表
+     * @return json
+     */
 	public function music(Request $request)
 	{
 		$skip = $request->get("skip") ? $request->get("skip") : 0;
@@ -77,11 +87,19 @@ class ApiController extends Controller
 		return $data;
 	}
 
+	/**
+     * 应用场景：获取音乐列表
+     * @return json
+     */
 	public function user()
 	{
 		return (new User)->orderBy('id','desc')->get();
 	}
 
+	/**
+     * 应用场景：获取最新动态
+     * @return json
+     */
 	public function news(Request $request)
 	{
 		$skip = $request->get("skip") ? $request->get("skip") : 0;
@@ -95,7 +113,10 @@ class ApiController extends Controller
 		return $data;
 	}
 
-	
+	/**
+     * 应用场景：获取最新动态详情
+     * @return json
+     */
 	public function newsDetail($aid)
 	{
 		$data = (new News)->where('id', $aid)->get();
@@ -107,6 +128,10 @@ class ApiController extends Controller
 		return $data;
 	}
 
+	/**
+     * 应用场景：接口登录
+     * @return json
+     */
 	public function login()
 	{
 		$input = Input::all();
